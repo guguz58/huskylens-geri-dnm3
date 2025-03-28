@@ -4,7 +4,6 @@ input.onButtonPressed(Button.A, function () {
 })
 input.onButtonPressed(Button.B, function () {
     strip.clear()
-    neopixel.create(DigitalPin.P12, strip, NeoPixelMode.RGB).clear()
 })
 let strip: neopixel.Strip = null
 strip = neopixel.create(DigitalPin.P12, 60, NeoPixelMode.RGB)
@@ -26,6 +25,7 @@ basic.showIcon(IconNames.Heart)
 huskylens.initI2c()
 huskylens.initMode(protocolAlgorithm.OBJECTCLASSIFICATION)
 basic.forever(function () {
+    pins.servoWritePin(AnalogPin.P9, 180)
     huskylens.request()
     if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
         huskylens.writeName(1, "cam")
@@ -34,6 +34,9 @@ basic.forever(function () {
     if (huskylens.isAppear(2, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
         huskylens.writeName(2, "kagit")
         huskylens.writeOSD("kagit", 150, 30)
+        basic.pause(1000)
+        pins.servoWritePin(AnalogPin.P9, 0)
+        basic.pause(5000)
     }
     if (huskylens.isAppear(3, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
         huskylens.writeName(3, "pet")
